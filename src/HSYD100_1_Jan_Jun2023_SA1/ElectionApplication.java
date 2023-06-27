@@ -1,87 +1,78 @@
 package HSYD100_1_Jan_Jun2023_SA1;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ElectionApplication {
 	
-	private static Scanner input = new Scanner(System.in);
-	
-	private static ArrayList<Election> elections = new ArrayList<>();
-	
-	private static int totalVotes = 0;
-	
 	public static void main(String[] args) {
 		
-		int candidates = 0;
+		ElectionApplication el = new ElectionApplication();
+		el.runElection();
 		
-		System.out.println("Enter Number of Election Candidates:");
-		
-		candidates = input.nextInt();
-		
-		requestElection(candidates);
-		
-		totalVotes();
-		
-		print();
-		
-	}
+	}	
 	
-	private static void requestElection(int length) {
+	public void runElection() {
 		
-		 new Election();
+		ArrayList<Election> elections = new ArrayList<>();
+				
+		System.out.println("Number of Election Canditates");
 		
-		System.out.println("Enter Election Data:");
+		int number = keypad().nextInt();
 		
-		String name;
+		int counter = 1;
 		
-		for(int i = 0; i < length; i++) {
+		BigDecimal total = new BigDecimal(0);		
+		
+		System.out.println("We have "+TranslateNumberToString.translateNumberToWord(number)+" canditates running for election");
+		
+		do {
+			
+			System.out.println("Enter Election Results for Canditate Number: ".concat(TranslateNumberToString.translateNumberToWord(counter)));
 			
 			Election election = new Election();
 			
-			System.out.println("Add "+ i +" Election:");
+			System.out.println("Canditate Name");
 			
-			System.out.println("");
+			String name = keypad().next();
 			
-			System.out.println("Add Candidate Name:");
+			election.setCandidate(name);
 			
-			election.setCandidate(input.nextLine());
+			System.out.println("Canditate Votes");
+						
+			int votes = keypad().nextInt();
 			
-			System.out.println("Add Candidate Votes:");
-			
-			election.setNumVotes(input.nextInt());
+			election.setNumVotes(votes);
 			
 			elections.add(election);
 			
+			total = total.add(new BigDecimal(votes));
+			
+			counter++;
+			
+		} while(counter <= number);
+		
+		System.out.println(total);		
+		
+		for(Election el: elections) {
+			el.setPercent(total);
 		}
+		
+		elections
+				.stream()
+				.forEach(election -> System.out.println(election));
+		
 	}
 	
-	private static void totalVotes(ArrayList<Election> elections) {		
-		for(Election election : elections) 
-			totalVotes = totalVotes + election.getNumVotes();				
+	public Scanner keypad() {		 
+		return new Scanner(System.in);
 	}
 	
-	private static void print() {
-		System.out.println("");
-		System.out.println("************************************");
-		System.out.println("***************ELECTIONS************");
-		System.out.println("************************************");
-		System.out.println("* Name      *     Votes   *    % of Total Votes*");
-		for(Election election : elections) {
-			double electionPercent = election.getNumVotes()/totalVotes;
-			System.out.println("* "+ election.getCandidate()+"  *  "+ election.getNumVotes() +"   * "+ electionPercent +"*");
-			electionPercent = 0;
-		}
-		System.out.println("");
+	public BigDecimal totalVotes(int votes) {
+		BigDecimal total = new BigDecimal(0);
+		total = total.add(new BigDecimal(votes)); 
+		return total;
 	}
 	
-	private String[] numberToWords(int num) {
-		
-		String[] number = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
-		
-		String[] tenths = {"Ten", "Eleven", "Twelve", "Thirdteen", "Fourteen", "Fifteen", "Sixteen", "Seven", "Nine"};
-		
-		return null;
-	}
-
 }
