@@ -8,8 +8,8 @@ public class ElectionApplication {
 	
 	public static void main(String[] args) {
 		
-		ElectionApplication el = new ElectionApplication();
-		el.runElection();
+		ElectionApplication election = new ElectionApplication();
+		election.runElection();
 		
 	}	
 	
