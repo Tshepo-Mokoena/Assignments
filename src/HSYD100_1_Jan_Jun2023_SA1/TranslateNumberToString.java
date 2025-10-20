@@ -10,7 +10,6 @@ public class TranslateNumberToString {
 	private static final String[] THOUSANDS = { "", "thousand", "million", "billion" };
 
 	public static String translateNumberToWord(int number) {
-		// Write your code here
 		if (number == 0)
 			return "zero";
 		int i = 0;
